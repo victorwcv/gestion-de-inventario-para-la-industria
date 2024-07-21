@@ -14,6 +14,9 @@ const Home = () => {
         <Link to="/register">
           <p className="text-neutral-700 hover:underline ">Registrar Usuario</p>
         </Link>
+        <Link to="/system">
+          <p className="text-neutral-700 hover:underline ">Sistema</p>
+        </Link>
       </div>
     </div>
   );

@@ -1,50 +1,49 @@
 import { NavLink } from "react-router-dom";
+import Button from "./Button";
+
+const options = [
+  // {
+  //   label: "Inicio",
+  //   to: "/system/home",
+  // },
+  {
+    label: "Materiales",
+    to: "/system/materials",
+  },
+  {
+    label: "EPPs",
+    to: "/system/epps",
+  },
+  {
+    label: "Herramientas",
+    to: "/system/tools",
+  },
+];
+
+const SidebarLink = ({ to, label }) => {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive, isPending }) =>
+        isPending ? "text-blue-300" : isActive ? "text-blue-500" : ""
+      }
+    >
+      {label}
+    </NavLink>
+  );
+};
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 bg-gray-800 text-white p-4">
+    <aside className="absolute top-0 w-64 h-screen bg-slate-500 text-white p-4">
+      <Button label={"x"} />
       <nav>
         <ul>
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive, isPending }) =>
-                isPending ? "text-blue-300" : isActive ? "text-blue-500" : ""
-              }
-            >
-              Panel de Control
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/inventory"
-              className={({ isActive, isPending }) =>
-                isPending ? "text-blue-300" : isActive ? "text-blue-500" : ""
-              }
-            >
-              Inventario
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/supliers"
-              className={({ isActive, isPending }) =>
-                isPending ? "text-blue-300" : isActive ? "text-blue-500" : ""
-              }
-            >
-              Proveedores
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/reports"
-              className={({ isActive, isPending }) =>
-                isPending ? "text-blue-300" : isActive ? "text-blue-500" : ""
-              }
-            >
-              Reportes
-            </NavLink>
-          </li>
+          {options.map(({ label, to }, index) => (
+            <li key={index}>
+              <SidebarLink to={to} label={label} />
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>
