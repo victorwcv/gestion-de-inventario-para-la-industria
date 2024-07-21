@@ -6,7 +6,6 @@ import Button from "../../components/Button";
 const Register = () => {
   return (
     <div className="flex-1 flex flex-col justify-center items-center">
-      <h2 className="text-2xl font-semibold mb-12">Registrar Usuario</h2>
       <div>
         <Formik
           initialValues={{
