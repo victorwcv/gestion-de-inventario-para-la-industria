@@ -6,11 +6,11 @@ function App() {
   const showFooter = ["/login", "/register", "/"].includes(location.pathname);
 
   return (
-    <div className="bg-slate-200 min-h-screen flex flex-col">
+    <div className="App">
       <Outlet />
       {showFooter && <Footer />}
     </div>
-  );
+  ); 
 }
 
 export default App;
