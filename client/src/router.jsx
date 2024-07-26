@@ -5,9 +5,13 @@ import Login from "./pages/login/Login";
 import Home from "./pages/home_page/Home";
 import Register from "./pages/register/Register";
 import System from "./pages/system/System";
-import System_materials from "./pages/system/outlet/System_materials";
-import System_epps from "./pages/system/outlet/System_epps";
-import System_tools from "./pages/system/outlet/System_tools";
+import SysHome from "./pages/system/partials/SysHome";
+import SysItems from "./pages/system/partials/SysItems";
+import SysEpps from "./pages/system/partials/SysEpps";
+import SysTools from "./pages/system/partials/SysTools";
+import SysWork from "./pages/system/partials/SysWork";
+import SysUsers from "./pages/system/partials/SysUsers";
+
 
 const router = createBrowserRouter([
   {
@@ -32,17 +36,29 @@ const router = createBrowserRouter([
         element: <System />,
         children: [
           {
-            path: "materials",
-            element: <System_materials />,
+            path: "home",
+            element: <SysHome />,
+          },
+          {
+            path: "items",
+            element: <SysItems />,
           },
           {
             path: "epps",
-            element: <System_epps />,
+            element: <SysEpps />,
           },
           {
             path: "tools",
-            element: <System_tools />,
+            element: <SysTools />,
           },
+          {
+            path: "work",
+            element: <SysWork />,
+          },
+          {
+            path: "users",
+            element: <SysUsers />
+          }
         ],
       },
     ],
