@@ -2,8 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #2e2e2e;
+  --color-secondary: #4a90e2;
+  --color-accent: #ff5722;
+  --color-background: #f5f5f5;
+  --color-text: #212121;
+}
+
+html {
+  box-sizing: border-box;
+}
+
 input{
   outline: none;
   border-width: 0px 0px 2px 0px;
   border-color: gray;
+}
+
+input:disabled{
+  opacity: .5;
+}
+
+.App {
+  height: 100dvh;
+  min-height: 650px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
