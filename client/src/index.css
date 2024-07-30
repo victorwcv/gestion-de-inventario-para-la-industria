@@ -6,7 +6,8 @@
   --color-primary: #2e2e2e;
   --color-secondary: #4a90e2;
   --color-accent: #ff5722;
-  --color-background: #f5f5f5;
+  --color-bg-primary: #f5f5f5;
+  --color-bg-secondary: #e2e8f0;
   --color-text: #212121;
 }
 
@@ -16,8 +17,8 @@ html {
 
 input{
   outline: none;
-  border-width: 0px 0px 2px 0px;
-  border-color: gray;
+  border-width: 0px 0px 3px 0px;
+  border-color: rgb(144, 144, 144);
 }
 
 input:disabled{
@@ -32,6 +33,30 @@ input:disabled{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-background);
   color: var(--color-text);
+}
+
+.btn {
+  padding: .5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all .1s ease;
+  
+}
+
+.btn:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: scale(1.05);
+}
+
+.btn:active {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
