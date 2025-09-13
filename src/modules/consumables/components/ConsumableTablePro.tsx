@@ -12,6 +12,8 @@ import { type Consumable } from "../schemas/consumable.schema";
 import { ArrowUpDown, Search } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/shared/lib/utils";
+import { ConsumableTableSkeleton } from "./ConsumableTableSkeleton";
+import { motion } from "framer-motion";
 
 const columns: ColumnDef<Consumable>[] = [
   {
@@ -70,74 +72,82 @@ export const ConsumableTablePro = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if (isLoading) return <p className="p-4">Cargando…</p>;
+  if (isLoading) return <ConsumableTableSkeleton />;
 
   return (
-    <div className="space-y-4">
-      {/* Buscador */}
-      <div className="flex items-center gap-2">
-        <Search className="w-5 h-5 text-muted-foreground" />
-        <input
-          value={globalFilter ?? ""}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Buscar..."
-          className="max-w-sm input"
-        />
-      </div>
+    !isLoading && (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="space-y-4">
+          {/* Buscador */}
+          <div className="flex items-center gap-2">
+            <Search className="w-5 h-5 text-muted-foreground" />
+            <input
+              value={globalFilter ?? ""}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              placeholder="Buscar..."
+              className="max-w-sm input"
+            />
+          </div>
 
-      {/* Tabla */}
-      <div className="border border-border rounded-lg overflow-hidden">
-        <table className="min-w-full">
-          <thead className="bg-muted">
-            {table.getHeaderGroups().map((hg) => (
-              <tr key={hg.id}>
-                {hg.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-4 py-3 text-left text-sm font-medium text-foreground"
-                  >
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
+          {/* Tabla */}
+          <div className="overflow-hidden">
+            <table className="min-w-full">
+              <thead className="bg-muted ">
+                {table.getHeaderGroups().map((hg) => (
+                  <tr key={hg.id}>
+                    {hg.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className="px-4 py-3 text-left text-sm font-medium text-foreground"
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border-t border-border">
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-3 text-sm text-foreground">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr key={row.id} className="border-t border-border">
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="px-4 py-3 text-sm text-foreground">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              </tbody>
+            </table>
+          </div>
 
-      {/* Paginación */}
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-muted-foreground">
-          {table.getFilteredRowModel().rows.length} filas
-        </span>
-        <div className="flex gap-2">
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="btn-secondary"
-          >
-            Anterior
-          </button>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="btn-secondary"
-          >
-            Siguiente
-          </button>
+          {/* Paginación */}
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">
+              {table.getFilteredRowModel().rows.length} filas
+            </span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                className="btn-secondary"
+              >
+                Anterior
+              </button>
+              <button
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                className="btn-secondary"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    )
   );
 };
