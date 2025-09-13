@@ -10,7 +10,7 @@ const nav = [
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background text-foreground min-w-fit">
       <header className="bg-white shadow">
         <nav className="flex gap-4 p-4">
           {nav.map(({ to, label, icon: Icon }) => (

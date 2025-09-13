@@ -1,7 +1,26 @@
 @import "tailwindcss";
 
+/* ---------- TEMA CLARO (default) ---------- */
+@theme {
+  --color-background: oklch(0.99 0 0);      /* casi blanco */
+  --color-foreground: oklch(0.2 0 0);       /* casi negro */
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.2 0 0);
+  --color-primary: oklch(0.55 0.19 262);
+  --color-primary-foreground: oklch(0.97 0 0);
+  --color-border: oklch(0.92 0 0);
+}
+
+/* Variante dark (manual vía data-theme) */
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)) ;
+
+/* Capa de componentes propios */
 @layer components {
-  .input { @apply w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 }
-  .btn-primary { @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 }
-  .btn-secondary { @apply bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 }
+  .btn-primary {
+    @apply inline-flex items-center gap-2
+           bg-primary text-white
+           px-4 py-2 rounded-md
+           hover:brightness-110
+            dark:bg-primary dark:text-white;
+  }
 }

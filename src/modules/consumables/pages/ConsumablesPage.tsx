@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useConsumables } from "../hooks";
-import { ConsumableTable, ConsumableFormModal, type FormValues } from "../components";
+import {
+  /* ConsumableTable, */
+  ConsumableFormModal,
+  type FormValues,
+  ConsumableTablePro,
+} from "../components";
 import { Plus } from "lucide-react";
 import type { Consumable } from "../schemas";
 
@@ -20,7 +25,7 @@ export default function ConsumablesPage() {
   };
 
   return (
-    <section>
+    <section className="max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Insumos</h1>
         <button onClick={() => setOpen(true)} className="btn-primary flex items-center gap-2">
@@ -28,12 +33,14 @@ export default function ConsumablesPage() {
         </button>
       </div>
 
-      <ConsumableTable
+      {/* <ConsumableTable
         onEdit={(c) => {
           setEditing(c);
           setOpen(true);
         }}
-      />
+      /> */}
+
+      <ConsumableTablePro />
 
       <ConsumableFormModal
         open={open}

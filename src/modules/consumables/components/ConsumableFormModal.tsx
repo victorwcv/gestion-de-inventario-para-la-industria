@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { consumableSchema, type Consumable } from "../schemas/consumable.schema";
@@ -39,7 +39,7 @@ export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, 
   return (
     <Transition show={open} as={Fragment}>
       <Dialog onClose={onClose} className="fixed inset-0 z-50">
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -49,10 +49,10 @@ export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, 
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 bg-black/30" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0 scale-95"
@@ -61,8 +61,8 @@ export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, 
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="bg-white rounded p-6 w-full max-w-md">
-              <Dialog.Title className="text-lg font-bold mb-4">Nuevo Insumo</Dialog.Title>
+            <DialogPanel className="bg-white rounded p-6 w-full max-w-md">
+              <DialogTitle className="text-lg font-bold mb-4">Nuevo Insumo</DialogTitle>
 
               <form onSubmit={handleSubmit(submit)} className="space-y-4">
                 <input {...register("sku")} placeholder="SKU" className="input" />
@@ -112,8 +112,8 @@ export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, 
                   </button>
                 </div>
               </form>
-            </Dialog.Panel>
-          </Transition.Child>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </Transition>
