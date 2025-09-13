@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Consumable } from "@/modules/consumables/schemas";
 import { mockConsumables } from "@/shared/lib/mockConsumables";
 import { v4 as uuid } from "uuid";
+import toast from "react-hot-toast";
 
 const QUERY_KEY = ["consumables"];
 
@@ -37,12 +38,20 @@ export function useConsumables() {
 
   const addMutation = useMutation({
     mutationFn: create,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+      toast.success("Insumo creado");
+    },
+    onError: () => toast.error("Error al crear"),
   });
 
   const updateMutation = useMutation({
     mutationFn: update,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY });
+      toast.success("Insumo actualizado");
+    },
+    onError: () => toast.error("Error al actualizar"),
   });
 
   // Helper entrada/salida
@@ -60,8 +69,9 @@ export function useConsumables() {
   return {
     data,
     isLoading,
-    add: addMutation.mutate,
-    update: updateMutation.mutate,
     adjustStock,
+    addStock: addMutation,
+    updateStock: updateMutation,
+    isChangingStock: addMutation.isPending || updateMutation.isPending,
   };
 }

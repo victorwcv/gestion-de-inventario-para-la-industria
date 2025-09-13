@@ -11,9 +11,10 @@ type Props = {
   onClose: () => void;
   onSubmit: (data: FormValues) => void;
   initial?: Consumable;
+  loading?: boolean;
 };
 
-export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, initial }) => {
+export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, initial, loading }) => {
   const {
     register,
     handleSubmit,
@@ -106,7 +107,7 @@ export const ConsumableFormModal: React.FC<Props> = ({ open, onClose, onSubmit, 
                   <button type="button" onClick={onClose} className="btn-secondary">
                     Cancelar
                   </button>
-                  <button type="submit" className="btn-primary">
+                  <button type="submit" className="btn-primary" disabled={loading}>
                     Guardar
                   </button>
                 </div>

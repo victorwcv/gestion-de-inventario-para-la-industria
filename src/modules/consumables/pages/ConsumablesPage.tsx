@@ -7,15 +7,15 @@ import type { Consumable } from "../schemas";
 export default function ConsumablesPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Consumable | undefined>();
-  const { add, update } = useConsumables();
+  const { addStock, updateStock, isChangingStock } = useConsumables();
 
   const handleAdd = (data: Omit<Consumable, "id" | "lastMovement">) => {
-    add({ ...data, lastMovement: new Date() });
+    addStock.mutate({ ...data, lastMovement: new Date() });
   };
 
   const handleEdit = (data: FormValues) => {
     if (!editing) return;
-    update({ ...editing, ...data, lastMovement: new Date() });
+    updateStock.mutate({ ...editing, ...data, lastMovement: new Date() });
     setEditing(undefined);
   };
 
@@ -43,6 +43,7 @@ export default function ConsumablesPage() {
         }}
         onSubmit={editing ? handleEdit : handleAdd}
         initial={editing}
+        loading={isChangingStock}
       />
     </section>
   );
