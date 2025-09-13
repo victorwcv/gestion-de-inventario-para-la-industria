@@ -12,7 +12,7 @@ export const ConsumableTable: React.FC<Props> = ({ onEdit }) => {
     adjustStock(id, delta);
   };
 
-  if (isLoading) return <p className="p-4">Cargando…</p>;
+  if (isLoading) return <p className="p-4 text-center">Cargando…</p>;
 
   return (
     <>
@@ -43,18 +43,24 @@ export const ConsumableTable: React.FC<Props> = ({ onEdit }) => {
               <td className="px-4 py-2 text-right">{c.minStock}</td>
               <td className="px-4 py-2 flex gap-2">
                 <button
+                  disabled={isChangingStock}
                   onClick={() => handleMove(c.id, 1)}
                   className="text-green-600 hover:text-green-800"
                 >
                   <PlusCircle className="w-5 h-5" />
                 </button>
                 <button
+                  disabled={isChangingStock}
                   onClick={() => handleMove(c.id, -1)}
                   className="text-red-600 hover:text-red-800"
                 >
                   <MinusCircle className="w-5 h-5" />
                 </button>
-                <button onClick={() => onEdit(c)} className="text-blue-600 hover:text-blue-800">
+                <button
+                  disabled={isChangingStock}
+                  onClick={() => onEdit(c)}
+                  className="text-blue-600 hover:text-blue-800"
+                >
                   <Pencil className="w-5 h-5" />
                 </button>
               </td>

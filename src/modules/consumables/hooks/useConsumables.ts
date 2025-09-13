@@ -3,18 +3,26 @@ import type { Consumable } from "@/modules/consumables/schemas";
 import { mockConsumables } from "@/shared/lib/mockConsumables";
 import { v4 as uuid } from "uuid";
 import toast from "react-hot-toast";
+import { loadFromStorage, saveToStorage } from "../lib/consumableStorage";
 
 const QUERY_KEY = ["consumables"];
 
+let cached = loadFromStorage();
+if (cached.length === 0) {
+  cached = mockConsumables;
+  saveToStorage(cached);
+}
+
 // Simula API local
 const getAll = async (): Promise<Consumable[]> =>
-  new Promise((res) => setTimeout(() => res(mockConsumables), 300));
+  new Promise((res) => setTimeout(() => res(cached), 300));
 
 const create = async (dto: Omit<Consumable, "id">): Promise<Consumable> =>
   new Promise((res) =>
     setTimeout(() => {
-      const created: Consumable = { ...dto, id: uuid() };
-      mockConsumables.push(created);
+      const created: Consumable = { ...dto, id: uuid(), lastMovement: new Date() };
+      cached = [...cached, created];
+      saveToStorage(cached);
       res(created);
     }, 300)
   );
@@ -22,8 +30,8 @@ const create = async (dto: Omit<Consumable, "id">): Promise<Consumable> =>
 const update = async (dto: Consumable): Promise<Consumable> =>
   new Promise((res) =>
     setTimeout(() => {
-      const idx = mockConsumables.findIndex((c) => c.id === dto.id);
-      if (idx !== -1) mockConsumables[idx] = dto;
+      cached = cached.map((c) => (c.id === dto.id ? dto : c));
+      saveToStorage(cached);
       res(dto);
     }, 300)
   );
