@@ -1,8 +1,14 @@
 import { useConsumables } from "../hooks/useConsumables";
+import { PlusCircle, MinusCircle } from "lucide-react";
 import { format } from "date-fns";
 
 export function ConsumableTable() {
-  const { data, isLoading } = useConsumables();
+  const { data, isLoading, adjustStock } = useConsumables();
+
+  const handleMove = (id: string, delta: number) => {
+    if (delta < 0 && !confirm("¿Confirmas salida de stock?")) return;
+    adjustStock(id, delta);
+  };
 
   if (isLoading) return <p className="p-4">Cargando…</p>;
 
@@ -15,7 +21,7 @@ export function ConsumableTable() {
           <th className="px-4 py-2 text-left">Ubicación</th>
           <th className="px-4 py-2 text-right">Stock</th>
           <th className="px-4 py-2 text-right">Mínimo</th>
-          <th className="px-4 py-2 text-left">Último mov.</th>
+          <th className="px-4 py-2">Acciones</th>
         </tr>
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
@@ -24,10 +30,27 @@ export function ConsumableTable() {
             <td className="px-4 py-2">{c.sku}</td>
             <td className="px-4 py-2">{c.description}</td>
             <td className="px-4 py-2">{c.location || "-"}</td>
-            <td className="px-4 py-2 text-right">{c.stock}</td>
+            <td
+              className={`px-4 py-2 text-right font-semibold ${
+                c.stock <= c.minStock ? "text-red-600" : ""
+              }`}
+            >
+              {c.stock}
+            </td>
             <td className="px-4 py-2 text-right">{c.minStock}</td>
-            <td className="px-4 py-2">
-              {c.lastMovement ? format(c.lastMovement, "dd/MM/yy") : "-"}
+            <td className="px-4 py-2 flex gap-2">
+              <button
+                onClick={() => handleMove(c.id, 1)}
+                className="text-green-600 hover:text-green-800"
+              >
+                <PlusCircle className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => handleMove(c.id, -1)}
+                className="text-red-600 hover:text-red-800"
+              >
+                <MinusCircle className="w-5 h-5" />
+              </button>
             </td>
           </tr>
         ))}
