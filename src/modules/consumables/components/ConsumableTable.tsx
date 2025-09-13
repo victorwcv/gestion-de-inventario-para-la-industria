@@ -1,8 +1,10 @@
 import { useConsumables } from "../hooks/useConsumables";
-import { PlusCircle, MinusCircle } from "lucide-react";
-import { format } from "date-fns";
+import { PlusCircle, MinusCircle, Pencil } from "lucide-react";
+import type { Consumable } from "../schemas";
 
-export function ConsumableTable() {
+type Props = { onEdit: (c: Consumable) => void };
+
+export const ConsumableTable: React.FC<Props> = ({ onEdit }) => {
   const { data, isLoading, adjustStock } = useConsumables();
 
   const handleMove = (id: string, delta: number) => {
@@ -51,10 +53,13 @@ export function ConsumableTable() {
               >
                 <MinusCircle className="w-5 h-5" />
               </button>
+              <button onClick={() => onEdit(c)} className="text-blue-600 hover:text-blue-800">
+                <Pencil className="w-5 h-5" />
+              </button>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
   );
-}
+};

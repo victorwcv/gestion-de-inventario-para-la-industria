@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { useConsumables } from "../hooks";
-import { ConsumableTable, ConsumableFormModal } from "../components";
+import { ConsumableTable, ConsumableFormModal, type FormValues } from "../components";
 import { Plus } from "lucide-react";
 import type { Consumable } from "../schemas";
 
 export default function ConsumablesPage() {
   const [open, setOpen] = useState(false);
-  const { add } = useConsumables();
+  const [editing, setEditing] = useState<Consumable | undefined>();
+  const { add, update } = useConsumables();
 
   const handleAdd = (data: Omit<Consumable, "id" | "lastMovement">) => {
     add({ ...data, lastMovement: new Date() });
+  };
+
+  const handleEdit = (data: FormValues) => {
+    if (!editing) return;
+    update({ ...editing, ...data, lastMovement: new Date() });
+    setEditing(undefined);
   };
 
   return (
@@ -21,9 +28,22 @@ export default function ConsumablesPage() {
         </button>
       </div>
 
-      <ConsumableTable />
+      <ConsumableTable
+        onEdit={(c) => {
+          setEditing(c);
+          setOpen(true);
+        }}
+      />
 
-      <ConsumableFormModal open={open} onClose={() => setOpen(false)} onSubmit={handleAdd} />
+      <ConsumableFormModal
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          setEditing(undefined);
+        }}
+        onSubmit={editing ? handleEdit : handleAdd}
+        initial={editing}
+      />
     </section>
   );
 }
