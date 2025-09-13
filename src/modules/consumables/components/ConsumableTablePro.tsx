@@ -94,9 +94,9 @@ export const ConsumableTablePro = () => {
           </div>
 
           {/* Tabla */}
-          <div className="overflow-hidden">
+          <div className="border border-border rounded-lg overflow-hidden">
             <table className="min-w-full">
-              <thead className="bg-muted ">
+              <thead className="bg-muted">
                 {table.getHeaderGroups().map((hg) => (
                   <tr key={hg.id}>
                     {hg.headers.map((header) => (
@@ -112,7 +112,7 @@ export const ConsumableTablePro = () => {
               </thead>
               <tbody>
                 {table.getRowModel().rows.map((row) => (
-                  <tr key={row.id} className="border-t border-border">
+                  <tr key={row.id} className="border-t border-border table-row">
                     {row.getVisibleCells().map((cell) => (
                       <td key={cell.id} className="px-4 py-3 text-sm text-foreground">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

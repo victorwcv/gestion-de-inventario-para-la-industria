@@ -1,6 +1,6 @@
 import { Skeleton } from "@/shared/components/Skeleton";
 
-export const ConsumableTableSkeleton = () => {
+export const ConsumableTableSkeleton = () =>{
   return (
     <div className="space-y-4">
       {/* Barra de búsqueda skeleton */}
@@ -10,7 +10,7 @@ export const ConsumableTableSkeleton = () => {
       </div>
 
       {/* Tabla skeleton */}
-      <div className="overflow-hidden">
+      <div className="border border-border rounded-lg overflow-hidden">
         <table className="min-w-full">
           <thead className="bg-muted">
             <tr>
