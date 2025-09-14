@@ -1,5 +1,4 @@
 import {
-  type ColumnDef,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -7,15 +6,22 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import type { ColumnDef, Row } from "@tanstack/react-table";
 import { useConsumables } from "../hooks/useConsumables";
 import { type Consumable } from "../schemas/consumable.schema";
-import { ArrowUpDown, Search } from "lucide-react";
+import { ArrowUpDown, Search, Pencil } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/shared/lib/utils";
 import { ConsumableTableSkeleton } from "./ConsumableTableSkeleton";
 import { motion } from "framer-motion";
+import { ConsumableFormModal, DispatchCell } from "@/modules/consumables/components";
 
 const columns: ColumnDef<Consumable>[] = [
+  {
+    id: "edit",
+    header: "Editar",
+    cell: ({ row }) => <EditCell row={row} />,
+  },
   {
     accessorKey: "sku",
     header: ({ column }) => (
@@ -45,15 +51,23 @@ const columns: ColumnDef<Consumable>[] = [
     ),
     cell: ({ row }) => {
       const stock = row.getValue<number>("stock");
+      const unit = row.original.unit;
       const minStock = row.original.minStock;
       return (
-        <span className={cn("font-semibold", stock <= minStock && "text-red-600")}>{stock}</span>
+        <span className={cn("font-semibold", stock <= minStock && "text-red-600")}>
+          {stock} {unit}{" "}
+        </span>
       );
     },
   },
   {
     accessorKey: "minStock",
     header: "Mínimo",
+  },
+  {
+    id: "dispatch",
+    header: "Despacho",
+    cell: ({ row }) => <DispatchCell row={row} />,
   },
 ];
 
@@ -151,3 +165,29 @@ export const ConsumableTablePro = () => {
     )
   );
 };
+
+const EditCell: React.FC<{ row: Row<Consumable> }> = ({ row }) => {
+  const [open, setOpen] = useState(false);
+  const consumable = row.original as Consumable;
+  const { updateStock } = useConsumables();
+
+  const handleSave = (data: Omit<Consumable, "id" | "lastMovement">) => {
+    updateStock.mutate({ ...consumable, ...data, lastMovement: new Date() });
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className="p-2 opacity-50 hover:text-green-500">
+        <Pencil className="w-5 h-5" />
+      </button>
+      <ConsumableFormModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onSubmit={handleSave}
+        initial={consumable}
+      />
+    </>
+  );
+};
+
